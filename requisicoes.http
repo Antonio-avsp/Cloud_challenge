@@ -1,0 +1,116 @@
+# =====================================================================
+# G01 · Mural da Coordenação — requisições prontas
+# VS Code + extensão "REST Client" (humao.rest-client): clique em
+# "Send Request" em cima de cada bloco. Rode na ordem, de cima para baixo.
+# =====================================================================
+
+# Local:
+@base = http://localhost:3000
+# Azure (troque pelo nome real do App Service e comente a linha de cima):
+# @base = https://app-cloud-g01-SEU-SUFIXO.azurewebsites.net
+
+### 1) Saúde: testa a conexão com o banco. Anote o "iniciado_em" (prova de persistência).
+GET {{base}}/health
+
+### 2) RF1 · Cadastrar tarefa válida (prioridade omitida -> padrão "media") -> 201
+# @name criar
+POST {{base}}/api/tarefas
+Content-Type: application/json
+
+{
+  "titulo": "Reservar o auditório para a aula inaugural",
+  "responsavel": "Ana Exemplo",
+  "prazo": "{{$localDatetime 'YYYY-MM-DD' 7 d}}"
+}
+
+### 3) RF1 · Cadastrar com prioridade alta e sem prazo -> 201
+POST {{base}}/api/tarefas
+Content-Type: application/json
+
+{
+  "titulo": "Conferir diários de classe do noturno",
+  "responsavel": "Bruno Exemplo",
+  "prioridade": "alta"
+}
+
+### 4) CA1 (negativo) · Título com 2 caracteres -> 400 com mensagem
+POST {{base}}/api/tarefas
+Content-Type: application/json
+
+{
+  "titulo": "ab",
+  "responsavel": "Ana Exemplo"
+}
+
+### 5) CA2 (negativo) · Prazo anterior a hoje (ontem) -> 400
+POST {{base}}/api/tarefas
+Content-Type: application/json
+
+{
+  "titulo": "Publicar horários das turmas",
+  "responsavel": "Carla Exemplo",
+  "prazo": "{{$localDatetime 'YYYY-MM-DD' -1 d}}"
+}
+
+### 6) RF2 · Listar todas (pendentes primeiro; prioridade e prazo)
+GET {{base}}/api/tarefas
+
+### 7) RF2 · Filtrar pendentes
+GET {{base}}/api/tarefas?situacao=pendentes
+
+### 8) RF2 · Filtrar concluídas
+GET {{base}}/api/tarefas?situacao=concluidas
+
+### 9) RF4 / CA4 · Filtrar atrasadas (prepare com banco/preparacao-teste-ca4.sql)
+# Esperado: só "CA4 - pendente com prazo de ontem" (a concluída NÃO aparece).
+GET {{base}}/api/tarefas?situacao=atrasadas
+
+### 10) RF3 / CA3 · Concluir a tarefa criada no passo 2 -> 200 com concluida_em
+PATCH {{base}}/api/tarefas/{{criar.response.body.$.id}}/concluir
+
+### 11) CA3 (negativo) · Concluir de novo -> 409
+PATCH {{base}}/api/tarefas/{{criar.response.body.$.id}}/concluir
+
+### 12) Consultar uma tarefa pelo id
+GET {{base}}/api/tarefas/{{criar.response.body.$.id}}
+
+### 13) Extra · Reabrir a tarefa concluída -> 200 (concluida_em volta a null)
+PATCH {{base}}/api/tarefas/{{criar.response.body.$.id}}/reabrir
+
+### 14) Extra · Contadores (pendentes / atrasadas / concluídas)
+GET {{base}}/api/tarefas/contadores
+
+### 15) Extra · Filtro por responsável (parte do nome, sem diferenciar maiúsculas)
+GET {{base}}/api/tarefas?responsavel=ana
+
+### 16) Segurança · Tentativa de injeção de SQL no filtro -> 200 com lista vazia
+GET {{base}}/api/tarefas?responsavel=x'%20OR%201=1%20--
+
+### 17) RF5 · Excluir a tarefa criada no passo 2 -> 204
+DELETE {{base}}/api/tarefas/{{criar.response.body.$.id}}
+
+### 18) CA5 (negativo) · Excluir id inexistente -> 404
+DELETE {{base}}/api/tarefas/999999
+
+### 19) Negativo · id inválido -> 400
+GET {{base}}/api/tarefas/abc
+
+### 20) Negativo · Prioridade fora da lista -> 400
+POST {{base}}/api/tarefas
+Content-Type: application/json
+
+{
+  "titulo": "Organizar a reunião de colegiado",
+  "responsavel": "Diego Exemplo",
+  "prioridade": "urgente"
+}
+
+### 21) Prova de persistência · Registro G01-PALAVRA (troque PALAVRA pela palavra do dia)
+POST {{base}}/api/tarefas
+Content-Type: application/json
+
+{
+  "titulo": "G01-PALAVRA",
+  "responsavel": "Equipe G01",
+  "prioridade": "alta"
+}

@@ -1,1 +1,19 @@
-# Impede o envio de pastas locais e do arquivo .env
+# Segredos: o .env (com a senha real do banco) NUNCA vai para o Git.
+.env
+.env.*
+!.env.example
+
+# Dependências e arquivos gerados
+node_modules/
+npm-debug.log*
+*.zip
+
+# Configuração local do "az webapp up"
+.azure/
+
+# Sistema operacional / editores
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

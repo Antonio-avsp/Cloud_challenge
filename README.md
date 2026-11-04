@@ -13,7 +13,7 @@ Desafio 01 (complexidade intermediária) · Nível de implantação: **A, Nuvem 
 | Antonio Vinicius | **DEV** (API e regras) | Rotas, validação, regra central (concluir e "atrasadas"): `src/` |
 | Lucas Vinicius | **DEV** (interface) | Tela web (`public/`), arquivo `requisicoes.http`, demonstração ao vivo |
 | Vinicius Trezena | **DADOS** | Modelo, `banco/*.sql`, restrições, usuário sem privilégio, prova de persistência no banco |
-| Renan Souza | **NUVEM** | Recursos na Azure, firewall, `DATABASE_URL`, deploy (dono do repositório), logs |
+| Renan Souza | **NUVEM** | Recursos na Azure, firewall, `DATABASE_URL`, deploy, logs |
 | Vitoria Barboza | **QA** (testes e evidências) | Casos de teste, `npm test`, prints da pasta `evidencias/` |
 | Leonardo Silva | **QA** (README e pitch) | README, diagrama, roteiro e vídeo do pitch de 90 s |
 
@@ -189,11 +189,11 @@ Modelo com valores falsos: [`.env.example`](.env.example). Exemplo de `DATABASE_
 Pré-requisitos: Node.js 22 LTS, um banco (o próprio Azure SQL com o seu IP liberado no firewall, ou SQL Server local) e VS Code com a extensão REST Client.
 
 ```bash
-git clone https://github.com/renanldev/Cloud-challenge.git
+git clone https://github.com/Antonio-avsp/Cloud_challenge.git
 ```
 
 ```bash
-cd Cloud-challenge
+cd Cloud_challenge
 ```
 
 ```bash
@@ -256,7 +256,7 @@ Use **somente a assinatura indicada pelo professor**. Nomes sugeridos: `SUFIXO` 
    Aplicar e confirmar (o app reinicia).
 6. **Publicar** (escolham um caminho):
    - **VS Code:** extensão Azure App Service > *Deploy to Web App*. O arquivo `.vscode/settings.json` do repositório já impede que o `.env` e o `node_modules` subam.
-   - **Centro de Implantação com GitHub:** conta do Renan (dono do repositório), branch `main`. O fluxo do GitHub Actions roda `npm test` (só os testes de unidade, sem banco) antes de publicar.
+   - **Centro de Implantação com GitHub:** conta do Antonio (dono do repositório `Antonio-avsp/Cloud_challenge`), branch `main`; o Renan pode configurar se o Antonio o adicionar como colaborador. O fluxo do GitHub Actions roda `npm test` (só os testes de unidade, sem banco) antes de publicar.
    - **Azure CLI** (empacota só o que está no Git, então o `.env` nunca vai junto):
 
      ```bash

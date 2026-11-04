@@ -1,7 +1,0 @@
-{
-  "recommendations": [
-    "humao.rest-client",
-    "ms-azuretools.vscode-azureappservice",
-    "ms-mssql.mssql"
-  ]
-}

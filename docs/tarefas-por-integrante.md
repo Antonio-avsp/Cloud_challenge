@@ -17,7 +17,7 @@ O Antonio criou o banco na Azure, então assumiu a parte de banco na nuvem. O Re
 
 ## Antes de tudo (Antonio, 5 min)
 
-1. **Branch `main`:** no GitHub, abra **Settings > Branches**, renomeie `claude/gracious-thompson-1dvdjx` para **`main`** e confirme. Daqui para frente todo mundo trabalha na `main`.
+1. **Branch `main`:** o projeto já está na branch **`main`**; todo mundo trabalha nela.
 2. **Colaboradores:** em **Settings > Collaborators > Add people**, convide os outros 5 pelo usuário do GitHub. Cada um precisa **aceitar o convite** (chega por e-mail).
 3. Quem já tinha clonado roda:
 

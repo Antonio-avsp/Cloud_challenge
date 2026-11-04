@@ -10,10 +10,10 @@ Desafio 01 (complexidade intermediária) · Nível de implantação: **A, Nuvem 
 
 | Integrante | Papel | Responde por |
 |---|---|---|
-| Antonio Vinicius | **DEV** (API e regras) | Rotas, validação, regra central (concluir e "atrasadas"): `src/` |
+| Antonio Vinicius | **NUVEM** (banco Azure SQL) | Criou o Azure SQL (`sql-cloud-g01-avp` / `mural`), firewall, tabela e usuário `app_mural`; `DATABASE_URL` |
 | Lucas Vinicius | **DEV** (interface) | Tela web (`public/`), arquivo `requisicoes.http`, demonstração ao vivo |
 | Vinicius Trezena | **DADOS** | Modelo, `banco/*.sql`, restrições, usuário sem privilégio, prova de persistência no banco |
-| Renan Souza | **NUVEM** | Recursos na Azure, firewall, `DATABASE_URL`, deploy, logs |
+| Renan Souza | **NUVEM** (App Service e deploy) | App Service, variáveis de ambiente, deploy pelo GitHub, logs |
 | Vitoria Barboza | **QA** (testes e evidências) | Casos de teste, `npm test`, prints da pasta `evidencias/` |
 | Leonardo Silva | **QA** (README e pitch) | README, diagrama, roteiro e vídeo do pitch de 90 s |
 
@@ -181,7 +181,7 @@ O filtro **pendentes** inclui as atrasadas (toda atrasada é pendente). A lista 
 | `SCM_DO_BUILD_DURING_DEPLOYMENT` | `true`: o App Service roda `npm install` no deploy | Só na Azure |
 
 Modelo com valores falsos: [`.env.example`](.env.example). Exemplo de `DATABASE_URL`:
-`Server=tcp:sql-cloud-g01-SUFIXO.database.windows.net,1433;Initial Catalog=mural;User ID=app_mural;Password=SENHA;Encrypt=True;Connection Timeout=30;`
+`Server=tcp:sql-cloud-g01-avp.database.windows.net,1433;Initial Catalog=mural;User ID=app_mural;Password=SENHA;Encrypt=True;Connection Timeout=30;`
 (se a senha tiver `;`, coloque-a entre chaves: `Password={sen;ha}`).
 
 ### 6.2 No computador
@@ -237,11 +237,11 @@ Depois rode `banco/schema.sql` e `banco/usuario-app.sql` no banco `mural` e use 
 
 ### 6.3 Na Azure (Nível A)
 
-Use **somente a assinatura indicada pelo professor**. Nomes sugeridos: `SUFIXO` = iniciais do grupo; se o nome já existir, acrescente números. Região: `brazilsouth`, ou a que a política da assinatura permitir. Banco e App Service devem ficar **na mesma região**.
+Use **somente a assinatura indicada pelo professor**. Nomes sugeridos: `SUFIXO` = iniciais do grupo; se o nome já existir, acrescente números. Região usada: **South Africa North** (a política da assinatura Azure for Students não permitiu o Brasil). Banco e App Service devem ficar **na mesma região**.
 
 1. **Grupo de recursos:** Portal > Grupos de recursos > Criar: `rg-cloud-g01`, marcas `aula = cloud-challenge` e `grupo = g01`.
 2. **Azure SQL Database (oferta gratuita):** Portal > Bancos de dados SQL > Criar > **Aplicar oferta** gratuita.
-   - Banco: `mural` · Servidor: *Criar novo* `sql-cloud-g01-SUFIXO`, **autenticação SQL**, administrador `adm_g01` com senha forte (guardem fora do Git e fora de prints).
+   - Banco: `mural` · Servidor: *Criar novo* `sql-cloud-g01-avp`, **autenticação SQL**, administrador `adm_g01` com senha forte (guardem fora do Git e fora de prints).
    - Comportamento ao atingir o limite gratuito: **pausar automaticamente** até o próximo mês.
    - Aba **Rede**: ponto de extremidade **público**; **Permitir que serviços e recursos do Azure acessem este servidor = Sim**; **Adicionar IP do cliente atual = Sim**.
    - Aba **Segurança**: Microsoft Defender para SQL = **Agora não** (evita cobrança depois do período de teste).

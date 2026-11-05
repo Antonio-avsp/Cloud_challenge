@@ -1,0 +1,15 @@
+{
+  // Deploy pela extensão Azure App Service: o que NÃO vai para o servidor.
+  // O .env (senha do banco) fica só no computador; no App Service a
+  // DATABASE_URL vem de Configurações > Variáveis de ambiente.
+  // node_modules não sobe: o App Service roda "npm install" no deploy
+  // (variável SCM_DO_BUILD_DURING_DEPLOYMENT=true).
+  "appService.zipIgnorePattern": [
+    ".env",
+    "node_modules{,/**}",
+    ".vscode{,/**}",
+    ".git{,/**}",
+    "docs{,/**}",
+    "evidencias{,/**}"
+  ]
+}

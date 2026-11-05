@@ -1,0 +1,19 @@
+{
+  "name": "g01-mural-da-coordenacao",
+  "version": "1.0.0",
+  "private": true,
+  "description": "G01 - Mural da Coordenação: tarefas com responsável e prazo, mostrando na hora o que está atrasado (Cloud Challenge - Senac).",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "5.3.0",
+    "mssql": "12.7.13"
+  }
+}
